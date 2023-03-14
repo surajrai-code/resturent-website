@@ -3,24 +3,19 @@ import CartIcon from '../Cart/CartIcon';
 import classes from './HeaderCartButton.module.css'
 import CartContext from '../Cart/CartContext';
 const HeaderCartButton=(props)=>{
-    const cartcontext1 = useContext(CartContext);
-    let quantity = 0;
-    cartcontext1.items.forEach(item => {
-      quantity = quantity + Number(item.quantity);
-    });
-    return(
-        <button className={classes.button} onClick={props.onClick}>
-            <sapn className={classes.icon}>
-            <CartIcon />
-            </sapn>
-            <span>Your Cart</span>
-            <sapn className={classes.badge}>
-            {quantity}
-            </sapn>
-           
-                
-            
-        </button>
+    const cartCtx = useContext(CartContext);
+
+    const numberOfCartItem = cartCtx.items.reduce((curNumber,item) => {
+      return curNumber + item.amount;
+    },0)
+    return (
+     <button className={classes.button} onClick={props.onClick}>
+      <span className={classes.icon}>
+          <CartIcon />
+      </span>
+      <span>Your Cart</span>
+      <span className={classes.badge}>{numberOfCartItem}</span>
+     </button>
     )
 }
 export default HeaderCartButton;
